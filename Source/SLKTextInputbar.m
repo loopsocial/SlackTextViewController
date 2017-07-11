@@ -260,18 +260,12 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         }
     }
 
-    return [self.rightButton intrinsicContentSize].width;
+    return 64;
 }
 
 - (CGFloat)slk_appropriateRightButtonMargin
 {
-    if (self.autoHideRightButton) {
-        if (self.textView.text.length == 0) {
-            return 0.0;
-        }
-    }
-    
-    return self.contentInset.right;
+    return 0;
 }
 
 - (NSUInteger)slk_defaultNumberOfLines
@@ -481,8 +475,8 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
                               };
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[textView]-(right)-|" options:0 metrics:metrics views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[rightButton(0)]-(right)-|" options:0 metrics:metrics views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[rightButton]-(6)-|" options:0 metrics:metrics views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[rightButton(0)]-(0)-|" options:0 metrics:metrics views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[rightButton(44)]-(0)-|" options:0 metrics:metrics views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left@250)-[charCountLabel(<=50@1000)]-(right@750)-|" options:0 metrics:metrics views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[textView(0@999)]-(0)-|" options:0 metrics:metrics views:views]];
     [[self.bottomButtonsStackView.leftAnchor constraintEqualToAnchor:self.textView.leftAnchor] setActive: YES];

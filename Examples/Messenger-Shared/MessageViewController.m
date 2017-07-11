@@ -100,6 +100,7 @@
     
     self.textInputbar.autoHideRightButton = NO;
     [self.rightButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
+    [self.rightButton setImage:[UIImage imageNamed:@"icn_editing"] forState:UIControlStateNormal];
     
 #if DEBUG_CUSTOM_BOTTOM_VIEW
     // Example of view that can be added to the bottom of the text view
