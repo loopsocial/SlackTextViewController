@@ -133,9 +133,6 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         _textView.enablesReturnKeyAutomatically = YES;
         _textView.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, -1.0, 0.0, 1.0);
         _textView.textContainerInset = UIEdgeInsetsMake(8.0, 4.0, 8.0, 0.0);
-        _textView.layer.cornerRadius = 5.0;
-        _textView.layer.borderWidth = 0.5;
-        _textView.layer.borderColor =  [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:205.0/255.0 alpha:1.0].CGColor;
     }
     return _textView;
 }
