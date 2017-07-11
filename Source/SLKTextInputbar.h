@@ -36,17 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, strong) SLKTextView *textView;
 
-/** Optional view to host outlets under the text view, adjusting its height based on its subviews. Non-visible by default. Subviews' layout should be configured using auto-layout as well. */
-@property (nonatomic, readonly, strong) UIView *contentView;
 
 /** The custom input accessory view, used as empty achor view to detect the keyboard frame. */
 @property (nonatomic, readonly, strong) SLKInputAccessoryView *inputAccessoryView;
 
-/** The left action button action. */
-@property (nonatomic, strong) UIButton *leftButton;
-
 /** The right action button action. */
 @property (nonatomic, strong) UIButton *rightButton;
+
+/** The stack view below text input. */
+@property (nonatomic) UIStackView *bottomButtonsStackView;
 
 /** YES if the right button should be hidden animatedly in case the text view has no text in it. Default is YES. */
 @property (nonatomic, readwrite) BOOL autoHideRightButton;
@@ -62,6 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** The most appropriate height calculated based on the amount of lines of text and other factors. */
 @property (nonatomic, readonly) CGFloat appropriateHeight;
+
+- (void)addBottomStackviewSubview:(UIView*)subview;
 
 
 #pragma mark - Initialization
@@ -82,42 +82,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///------------------------------------------------
 /// @name Text Editing
 ///------------------------------------------------
-
-/** The view displayed on top if the text input bar, containing the button outlets, when editing is enabled. */
-@property (nonatomic, strong) UIView *editorContentView;
-
-/** The title label displayed in the middle of the accessoryView. */
-@property (nonatomic, strong) UILabel *editorTitle;
-
-/** The 'cancel' button displayed left in the accessoryView. */
-@property (nonatomic, strong) UIButton *editorLeftButton;
-
-/** The 'accept' button displayed right in the accessoryView. */
-@property (nonatomic, strong) UIButton *editorRightButton;
-
-/** The accessory view's maximum height. Default is 38 pts. */
-@property (nonatomic, assign) CGFloat editorContentViewHeight;
-
-/** A Boolean value indicating whether the control is in edit mode. */
-@property (nonatomic, getter = isEditing) BOOL editing;
-
-/**
- Verifies if the text can be edited.
- 
- @param text The text to be edited.
- @return YES if the text is editable.
- */
-- (BOOL)canEditText:(NSString *)text;
-
-/**
- Begins editing the text, by updating the 'editing' flag and the view constraints.
- */
-- (void)beginTextEditing;
-
-/**
- End editing the text, by updating the 'editing' flag and the view constraints.
- */
-- (void)endTextEdition;
 
 
 #pragma mark - Text Counting

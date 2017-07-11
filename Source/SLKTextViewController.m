@@ -309,10 +309,7 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
         _textInputbar = [[SLKTextInputbar alloc] initWithTextViewClass:self.textViewClass];
         _textInputbar.translatesAutoresizingMaskIntoConstraints = NO;
         
-        [_textInputbar.leftButton addTarget:self action:@selector(didPressLeftButton:) forControlEvents:UIControlEventTouchUpInside];
         [_textInputbar.rightButton addTarget:self action:@selector(didPressRightButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_textInputbar.editorLeftButton addTarget:self action:@selector(didCancelTextEditing:) forControlEvents:UIControlEventTouchUpInside];
-        [_textInputbar.editorRightButton addTarget:self action:@selector(didCommitTextEditing:) forControlEvents:UIControlEventTouchUpInside];
         
         _textInputbar.textView.delegate = self;
         
@@ -359,11 +356,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 - (SLKTextView *)textView
 {
     return _textInputbar.textView;
-}
-
-- (UIButton *)leftButton
-{
-    return _textInputbar.leftButton;
 }
 
 - (UIButton *)rightButton
@@ -660,7 +652,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     CGFloat inputbarHeight = _textInputbar.appropriateHeight;
     
     _textInputbar.rightButton.enabled = [self canPressRightButton];
-    _textInputbar.editorRightButton.enabled = [self canPressRightButton];
     
     if (inputbarHeight != self.textInputbarHC.constant)
     {
@@ -680,9 +671,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
                                                 animations:^{
                                                     if (!self.isInverted) {
                                                         self.scrollViewProxy.contentOffset = newOffset;
-                                                    }
-                                                    if (weakSelf.textInputbar.isEditing) {
-                                                        [weakSelf.textView slk_scrollToCaretPositonAnimated:NO];
                                                     }
                                                 }];
         }
@@ -753,14 +741,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 - (void)editAttributedText:(NSAttributedString *)attributedText
 {
-    if (![_textInputbar canEditText:attributedText.string]) {
-        return;
-    }
-    
-    // Caches the current text, in case the user cancels the edition
-    [self slk_cacheAttributedTextToDisk:self.textView.attributedText];
-    
-    [_textInputbar beginTextEditing];
     
     // Setting the text after calling -beginTextEditing is safer
     [self.textView setAttributedText:attributedText];
@@ -773,11 +753,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 - (void)didCommitTextEditing:(id)sender
 {
-    if (!_textInputbar.isEditing) {
-        return;
-    }
-    
-    [_textInputbar endTextEdition];
     
     // Clears the text and but not the undo manager
     [self.textView slk_clearText:NO];
@@ -785,11 +760,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 - (void)didCancelTextEditing:(id)sender
 {
-    if (!_textInputbar.isEditing) {
-        return;
-    }
-    
-    [_textInputbar endTextEdition];
     
     // Clears the text and but not the undo manager
     [self.textView slk_clearText:NO];
@@ -801,7 +771,7 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 - (BOOL)canShowTypingIndicator
 {
     // Don't show if the text is being edited or auto-completed.
-    if (_textInputbar.isEditing || self.isAutoCompleting) {
+    if (self.isAutoCompleting) {
         return NO;
     }
     
@@ -1296,21 +1266,13 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 - (void)didPressReturnKey:(UIKeyCommand *)keyCommand
 {
-    if (_textInputbar.isEditing) {
-        [self didCommitTextEditing:keyCommand];
-    }
-    else {
-        [self slk_performRightAction];
-    }
+    [self slk_performRightAction];
 }
 
 - (void)didPressEscapeKey:(UIKeyCommand *)keyCommand
 {
     if (self.isAutoCompleting) {
         [self cancelAutoCompletion];
-    }
-    else if (_textInputbar.isEditing) {
-        [self didCancelTextEditing:keyCommand];
     }
    
     CGFloat bottomMargin = [self slk_appropriateBottomMargin];
@@ -2251,10 +2213,6 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     self.textInputbarHC.constant = self.textInputbar.minimumInputbarHeight;
     self.scrollViewHC.constant = [self slk_appropriateScrollViewHeight];
     self.keyboardHC.constant = [self slk_appropriateKeyboardHeightFromRect:CGRectNull];
-    
-    if (_textInputbar.isEditing) {
-        self.textInputbarHC.constant += self.textInputbar.editorContentViewHeight;
-    }
     
     [super updateViewConstraints];
 }
