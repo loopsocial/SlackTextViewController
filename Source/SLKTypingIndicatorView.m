@@ -207,18 +207,6 @@
     
     BOOL isShowing = [self.usernames containsObject:username];
     
-    if (_interval > 0.0) {
-        
-        if (isShowing) {
-            NSTimer *timer = [self slk_timerWithIdentifier:username];
-            [self slk_invalidateTimer:timer];
-        }
-        
-        NSTimer *timer = [NSTimer timerWithTimeInterval:_interval target:self selector:@selector(slk_shouldRemoveUsername:) userInfo:@{SLKTypingIndicatorViewIdentifier: username} repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-        [self.timers addObject:timer];
-    }
-    
     if (isShowing) {
         return;
     }
