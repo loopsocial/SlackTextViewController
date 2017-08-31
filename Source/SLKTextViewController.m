@@ -2017,9 +2017,12 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
         return NO;
     }
     else {
-        NSDictionary *userInfo = @{@"text": text, @"range": [NSValue valueWithRange:range]};
-        [[NSNotificationCenter defaultCenter] postNotificationName:SLKTextViewTextWillChangeNotification object:self.textView userInfo:userInfo];
-        
+        // Check for the case the text is nil or empty
+        // and if so, do not send the notification
+        if ([text length] != 0) {
+            NSDictionary *userInfo = @{@"text": text, @"range": [NSValue valueWithRange:range]};
+            [[NSNotificationCenter defaultCenter] postNotificationName:SLKTextViewTextWillChangeNotification object:self.textView userInfo:userInfo];
+        }
         return YES;
     }
 }
