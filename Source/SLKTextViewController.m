@@ -2197,9 +2197,9 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     
     self.scrollViewProxy.translatesAutoresizingMaskIntoConstraints = false;
     self.autoCompletionView.translatesAutoresizingMaskIntoConstraints = false;
-    self.typingIndicatorView.translatesAutoresizingMaskIntoConstraints = false;
+    self.typingIndicatorProxyView.translatesAutoresizingMaskIntoConstraints = false;
     self.textInputbar.translatesAutoresizingMaskIntoConstraints = false;
-    
+
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView(0@750)][typingIndicatorView(0)]-0@999-[textInputbar(0)]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[autoCompletionView(0@750)][typingIndicatorView]" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[scrollView]|" options:0 metrics:nil views:views]];
