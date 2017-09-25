@@ -281,11 +281,6 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 
 #pragma mark - Setters
 
-- (void)setBackgroundColor:(UIColor *)color
-{
-    self.barTintColor = color;
-}
-
 - (void)setAutoHideRightButton:(BOOL)hide
 {
     if (self.autoHideRightButton == hide) {
