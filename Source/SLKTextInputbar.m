@@ -475,6 +475,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
     [[self.bottomButtonsStackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
     
     self.textViewBottomMarginC = [self slk_constraintForAttribute:NSLayoutAttributeBottom firstItem:self secondItem:self.textView];
+    self.textViewBottomMarginC.priority = 999;
 
     self.leftMarginWC = [[self slk_constraintsForAttribute:NSLayoutAttributeLeading] firstObject];
     
